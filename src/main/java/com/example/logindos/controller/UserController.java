@@ -8,6 +8,7 @@ import com.example.logindos.service.IUserService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -25,7 +26,10 @@ public class UserController {
     @Autowired
     private IRoleService roleService;
 
+
+
     @GetMapping()
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<UserSec>> getAllUsers(){
 
         List<UserSec> userList = userService.findAll();
@@ -33,12 +37,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<UserSec> getUserById(@PathVariable Long id){
         Optional<UserSec> user = userService.findById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")// Endpoint POST restringido solo a ADMIN
     public ResponseEntity<UserSec> createUser(@RequestBody UserSec userSec){
         Set<Role> roleList = new HashSet<Role>();
         Role readRole;
@@ -64,4 +71,6 @@ public class UserController {
         return null;
 
     }
+
+
 }
