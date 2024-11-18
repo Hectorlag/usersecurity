@@ -43,10 +43,10 @@ public class JwtUtils {
 
         //a partir de esto generamos el token
         String jwtToken = JWT.create()
-                .withIssuer(this.userGenerator)
-                .withSubject(username)
-                .withClaim("authorities", authorities)
-                .withIssuedAt(new Date())
+                .withIssuer(this.userGenerator)//acá va el usuario que genera el token
+                .withSubject(username)  // a quien se le genera el token
+                .withClaim("authorities", authorities) //claims son los datos contraidos en el JWT
+                .withIssuedAt(new Date()) //fecha de generación del token
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1800000)) //fecha de expiración, tiempo en milisegundos
                 .withJWTId(UUID.randomUUID().toString()) //id al token - que genere una random
                 .withNotBefore(new Date(System.currentTimeMillis())) //desde cuando es válido (desde ahora en este caso)
