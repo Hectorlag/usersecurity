@@ -21,8 +21,6 @@ import java.util.Collection;
 
 //mediante el extends establecemos que es un filtro que se tiene que ejecutar siempre
 public class JwtTokenValidator extends OncePerRequestFilter {
-
-
     private JwtUtils jwtUtils;
 
     public JwtTokenValidator(JwtUtils jwtUtils) {
@@ -64,4 +62,6 @@ public class JwtTokenValidator extends OncePerRequestFilter {
         //si no viene el token, esto arroja error
         filterChain.doFilter(request,response);
     }
+
+
 }
