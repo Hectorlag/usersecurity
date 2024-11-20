@@ -41,7 +41,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             //en el encabezado antes del token viene la palabra bearer (esquema de autenticación)
             //por lo que debemos sacarlo
             jwtToken = jwtToken.substring(7); //son 7 letras + 1 espacio
-            DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);
+            DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);//devuelve el token decodificado
 
             //si el token es válido, le concedemos el acceso
             String username = jwtUtils.extractUsername(decodedJWT);
@@ -53,7 +53,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             Collection authoritiesList = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
 
             //Si se valida el token, le damos acceso al usuario en el context holder
-            SecurityContext context = SecurityContextHolder.getContext();
+            SecurityContext context = SecurityContextHolder.getContext();//traemos al instancia actual
             Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authoritiesList);
             context.setAuthentication(authentication);
             SecurityContextHolder.setContext(context);
