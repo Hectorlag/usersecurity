@@ -26,12 +26,13 @@ public class JwtUtils {
     private String userGenerator;
 
     //Método para crear tokens
+    //Para encriptar, vamos a necesitar esta clave secreta y este algoritmo
     public String createToken(Authentication authentication) {
 
         Algorithm algorithm = Algorithm.HMAC256(privateKey);
 
         //esto está dentro del security context holder
-        String username = authentication.getPrincipal().toString();
+        String username = authentication.getPrincipal().toString();  //getPrincipal() representa al usuario autenticado
 
         //también obtenemos los permisos/autorizaciones
         //la idea es traer los permisos separados por coma
@@ -43,8 +44,9 @@ public class JwtUtils {
 
         //a partir de esto generamos el token
         String jwtToken = JWT.create()
+                //Issue = emitir
                 .withIssuer(this.userGenerator)//acá va el usuario que genera el token
-                .withSubject(username)  // a quien se le genera el token
+                .withSubject(username)  // a quien se le genera el token(usuario que viaja en el token)
                 .withClaim("authorities", authorities) //claims son los datos contraidos en el JWT
                 .withIssuedAt(new Date()) //fecha de generación del token
                 .withExpiresAt(new Date(System.currentTimeMillis() + 1800000)) //fecha de expiración, tiempo en milisegundos

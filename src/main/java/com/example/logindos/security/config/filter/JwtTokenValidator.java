@@ -23,16 +23,18 @@ import java.util.Collection;
 public class JwtTokenValidator extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
-    public JwtTokenValidator(JwtUtils jwtUtils) {
+    public JwtTokenValidator(JwtUtils jwtUtils)
+    {
         this.jwtUtils = jwtUtils;
     }
 
     @Override
-    //importante: el nonnull debe ser de sringframework, no lombok
+    //importante: el nonnull debe ser de springframework, no lombok
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
+        //el token viene en la cabecera de la request
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if(jwtToken != null) {
