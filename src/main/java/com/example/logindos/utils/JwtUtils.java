@@ -27,7 +27,7 @@ public class JwtUtils {
 
     //Método para crear tokens
     //Para encriptar, vamos a necesitar esta clave secreta y este algoritmo
-    public String createToken(Authentication authentication) {
+    public String createToken(Authentication authentication) { //devuelve la cadena de caracteres
 
         Algorithm algorithm = Algorithm.HMAC256(privateKey);
 
@@ -83,11 +83,13 @@ public class JwtUtils {
 
     //método para obtener un claim en particular
     public Claim getSpecificClaim (DecodedJWT decodedJWT, String claimName) {
+
         return decodedJWT.getClaim(claimName);
     }
 
     //devuelvo todos los claims
     public Map<String, Claim> returnAllClaims (DecodedJWT decodedJWT){
+
         return decodedJWT.getClaims();
     }
 
